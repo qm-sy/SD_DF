@@ -1,0 +1,116 @@
+C51 COMPILER V9.60.7.0   COMMON                                                            06/10/2025 17:12:09 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE COMMON
+OBJECT MODULE PLACED IN ..\Output\common.obj
+COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\Emembed\Src\common.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP
+                    -\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\common.lst) OBJECT(..\Outpu
+                    -t\common.obj)
+
+line level    source
+
+   1          #include "common.h"
+   2          
+   3          /**
+   4           * @brief       一些定时执行的事件   Timer3：10ms
+   5           *
+   6           * @param   
+   7           *
+   8           * @return  void
+   9          **/
+  10          void Tim3_ISR( void ) interrupt 19
+  11          {
+  12   1          static uint16_t temp_scan_cnt = 0;
+  13   1          static uint16_t AC_connect_cnt = 0;
+  14   1          static uint8_t channel1_cnt,channel2_cnt,channel3_cnt = 0;
+  15   1          static uint16_t capacity_time = 0;
+  16   1      
+  17   1          /* 1, Signal_IN状态查询           */
+  18   1          if( Signal_IN == 1 )
+  19   1          {
+  20   2              ac_ctrl.signal_flag = 1;
+  21   2          }else
+  22   1          {
+  23   2              ac_ctrl.signal_flag = 0;
+  24   2          }
+  25   1      
+  26   1          /* 2, temp 上报 1s/次                             */
+  27   1          if( temp.scan_flag == 0 )
+  28   1          {
+  29   2              temp_scan_cnt++;
+  30   2              if( temp_scan_cnt == 100 )
+  31   2              {
+  32   3                  temp.scan_flag = 1;
+  33   3                  temp_scan_cnt  = 0;
+  34   3              }
+  35   2          }
+  36   1          
+  37   1          /*3, 检测220V是否接入 5s关一次耗电计时，检测到220v输入再次开启计时*/
+  38   1          if( ac_ctrl.connect_flag == 1 ) 
+  39   1          {
+  40   2              AC_connect_cnt++;
+  41   2              if( AC_connect_cnt == 500 )
+  42   2              {
+  43   3                  AC_connect_cnt = 0;
+  44   3                  ac_ctrl.connect_flag = 0;
+  45   3              }
+  46   2          }
+  47   1      
+  48   1          /*4, 耗电计时*/
+  49   1          if( ac_ctrl.connect_flag == 1) 
+  50   1          {
+  51   2              if(( ac_ctrl.channel1_enable == 1 ) && (ac_ctrl.temp_alarm_flag == 0))
+  52   2              {
+  53   3                  channel1_cnt++;
+C51 COMPILER V9.60.7.0   COMMON                                                            06/10/2025 17:12:09 PAGE 2   
+
+  54   3              }
+  55   2              if(( ac_ctrl.channel2_enable == 1 ) && (ac_ctrl.temp_alarm_flag == 0))
+  56   2              {
+  57   3                  channel2_cnt++;
+  58   3              }
+  59   2              if(( ac_ctrl.channel3_enable == 1 ) && (ac_ctrl.temp_alarm_flag == 0))
+  60   2              {
+  61   3                  channel3_cnt++;
+  62   3              }
+  63   2          }
+  64   1          
+  65   1          capacity_time = (channel1_cnt + channel2_cnt + channel3_cnt) * slave_06.power_level;
+  66   1          if( capacity_time >= 30000 )                    //1s
+  67   1          {
+  68   2              capacity.capacity_s ++;
+  69   2      
+  70   2              capacity_time = 0;
+  71   2              channel1_cnt = channel2_cnt = channel3_cnt = 0;
+  72   2      
+  73   2              if( capacity.capacity_s == 60 )             //1min
+  74   2              {
+  75   3                  capacity.capacity_min++;
+  76   3      
+  77   3                  capacity.capacity_s = 0;
+  78   3      
+  79   3                  capacity.record_flag = 1;   //满功率1分钟记录一次
+  80   3      
+  81   3                  if( capacity.capacity_min == 60 )       //1h
+  82   3                  {
+  83   4                      capacity.capacity_h++;
+  84   4      
+  85   4                      capacity.capacity_min = 0;
+  86   4                  }
+  87   3              }
+  88   2          }
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    331    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      9    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

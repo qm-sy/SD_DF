@@ -1,0 +1,137 @@
+C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        06/10/2025 17:12:09 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EEPROM_CRL
+OBJECT MODULE PLACED IN ..\Output\eeprom_crl.obj
+COMPILER INVOKED BY: D:\APP\Keil_v5\C51\BIN\C51.EXE ..\BSP\Src\eeprom_crl.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\BSP
+                    -\Inc;..\Core\Inc;..\Driver;..\Emembed\Inc;..\SYSTEM\Inc) DEBUG OBJECTEXTEND PRINT(.\Listings\eeprom_crl.lst) OBJECT(..\O
+                    -utput\eeprom_crl.obj)
+
+line level    source
+
+   1          #include "eeprom_crl.h"
+   2          
+   3          /**
+   4           * @brief       eeprom状态判定，是否写入过
+   5           *
+   6           * @param   
+   7           *
+   8           * @return  void
+   9          **/
+  10          void eeprom_statu_judge( void )
+  11          {
+  12   1          uint8_t eeprom_statu_flag;
+  13   1      
+  14   1          eeprom_statu_flag = ISP_Read(EEPROM_STATU_JUDGE);
+  15   1      
+  16   1          if( eeprom_statu_flag != 0x58 )
+  17   1          {
+  18   2              slave_06.fan_level         = 3;
+  19   2              slave_06.led_switch        = 1;
+  20   2              slave_06.power_level       = 50;
+  21   2              slave_06.channel_num       = 5;
+  22   2              slave_06.sync_switch       = 0;
+  23   2              slave_06.mode_num          = 2;
+  24   2              slave_06.temp_alarm_value  = 80;
+  25   2              capacity.capacity_min      = 0;
+  26   2              capacity.capacity_h_H      = 0;
+  27   2              capacity.capacity_h_L      = 0;
+  28   2              eeprom_data_record(); 
+  29   2          }
+  30   1          eeprom_data_init();    
+  31   1      }
+  32          
+  33          /**
+  34           * @brief       主机更改参数后写入
+  35           *
+  36           * @param   
+  37           *
+  38           * @return  void
+  39          **/
+  40          void eeprom_data_record( void )
+  41          {
+  42   1          ISP_Earse(0x0000);
+  43   1      
+  44   1          ISP_Write(FAN_ADDR,slave_06.fan_level);
+  45   1          ISP_Write(LED_ADDR,slave_06.led_switch);
+  46   1          ISP_Write(POWER_ADDR,slave_06.power_level);
+  47   1          ISP_Write(CHANNEL_ADDR,slave_06.channel_num);
+  48   1          ISP_Write(SYNC_ADDR,slave_06.sync_switch);
+  49   1          ISP_Write(MODE_ADDR,slave_06.mode_num);
+  50   1          ISP_Write(TEMP_ALARM,slave_06.temp_alarm_value);
+  51   1          ISP_Write(CAPACITY_min,capacity.capacity_min);
+  52   1          ISP_Write(CAPACITY_h_H,capacity.capacity_h_H);
+  53   1          ISP_Write(CAPACITY_h_L,capacity.capacity_h_L);
+C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        06/10/2025 17:12:09 PAGE 2   
+
+  54   1      
+  55   1          ISP_Write(EEPROM_STATU_JUDGE,0x58);
+  56   1          delay_ms(10);
+  57   1      }
+  58          
+  59          
+  60          /**
+  61           * @brief       eeprom 数据初始化
+  62           *
+  63           * @param   
+  64           *
+  65           * @return  void
+  66          **/
+  67          void eeprom_data_init( void )
+  68          {
+  69   1          /*    PWM风速初始化    */
+  70   1          slave_06.fan_level = ISP_Read(FAN_ADDR);
+  71   1      
+  72   1          fan_ctrl(slave_06.fan_level);
+  73   1      
+  74   1          /*    LED开关状态初始化    */
+  75   1          slave_06.led_switch = ISP_Read(LED_ADDR);
+  76   1      
+  77   1          led_ctrl(slave_06.led_switch);
+  78   1      
+  79   1          /*    三路220V输出使能及功率初始化    */
+  80   1          slave_06.channel_num = ISP_Read(CHANNEL_ADDR);
+  81   1          AC_channel_ctrl(slave_06.channel_num);
+  82   1      
+  83   1          /*    三路220V输出功率初始化    */
+  84   1          slave_06.power_level = ISP_Read(POWER_ADDR);
+  85   1      
+  86   1          AC_level_ctrl(slave_06.power_level);
+  87   1      
+  88   1          /*    同步状态初始化    */
+  89   1          slave_06.sync_switch = ISP_Read(SYNC_ADDR);
+  90   1      
+  91   1          sync_ctrl();
+  92   1      
+  93   1          /*    工作模式初始化    */
+  94   1          slave_06.mode_num = ISP_Read(MODE_ADDR);
+  95   1      
+  96   1          //mode_ctrl(slave_06.mode_num);
+  97   1      
+  98   1          /*    报警温度初始化    */
+  99   1          slave_06.temp_alarm_value = ISP_Read(TEMP_ALARM);
+ 100   1      
+ 101   1          /*    报警温度初始化    */
+ 102   1          capacity.capacity_min = ISP_Read(CAPACITY_min);
+ 103   1          capacity.capacity_h_H = ISP_Read(CAPACITY_h_H);
+ 104   1          capacity.capacity_h_L = ISP_Read(CAPACITY_h_L);   
+ 105   1          capacity.capacity_h   = (capacity.capacity_h_H << 8) | capacity.capacity_h_L;
+ 106   1      
+ 107   1          slave_06.power_switch = 1;
+ 108   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    355    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.7.0   EEPROM_CRL                                                        06/10/2025 17:12:09 PAGE 3   
+
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
