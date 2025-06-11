@@ -12,8 +12,8 @@
 
 typedef struct 
 {
-    uint8_t  fan_level;             //220V输入检测
-    uint8_t  led_switch;             //220V输入检测
+    uint8_t  fan1_level;             //220V输入检测
+    uint8_t  fan2_level;             //220V输入检测
     uint8_t  power_level;
     uint8_t  channel_num;
     uint8_t  sync_switch;             //同步标志位
@@ -51,11 +51,11 @@ extern CAPACITY capacity;
 extern AC_CTRL ac_ctrl;
 
 void Power_Init( void );
-void led_ctrl( uint8_t on_off );
 void AC_level_ctrl( uint8_t power_level );
 void sync_ctrl( void );
 void temp_scan( void );
-void fan_ctrl( uint8_t level );
+void fan1_ctrl( uint8_t level );
+void fan2_ctrl( uint8_t level );
 void mode_ctrl( uint8_t mode_num );
 void Capacity_Init( void );
 void capacity_scan( void );

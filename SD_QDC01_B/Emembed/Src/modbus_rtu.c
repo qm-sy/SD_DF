@@ -83,17 +83,17 @@ void Modbus_Fun3( void )
         modbus.byte_info_H = modbus.byte_info_L = 0X00;
         switch (i)
         {   
-            /*  40001 风速查询                     */
+            /*  40001 风速1查询                     */
             case 0x00:
                 modbus.byte_info_H = 0x00;
-                modbus.byte_info_L = slave_06.fan_level;
+                modbus.byte_info_L = slave_06.fan1_level;
                 
                 break;
 
-            /*  40002 LED开关状态查询                     */    
+            /*  40002 风速2查询                     */    
             case 0x01:
                 modbus.byte_info_H = 0X00;
-                modbus.byte_info_L = slave_06.led_switch;
+                modbus.byte_info_L = slave_06.fan2_level;
 
                 break;
 
@@ -206,19 +206,19 @@ void Modbus_Fun6( void )
 {
     switch (rs485.RX4_buf[3])
     {
-        /*  40001  风速设置                 */
+        /*  40001  风速1设置                 */
         case 0x00:    
-            slave_06.fan_level = rs485.RX4_buf[5];     
+            slave_06.fan1_level = rs485.RX4_buf[5];     
 
-            fan_ctrl(slave_06.fan_level);
+            fan1_ctrl(slave_06.fan1_level);
 
             break;
 
-        /*  40002  LED 开关状态设置                          */
+        /*  40002   风速2设置                          */
         case 0x01:                                         
-            slave_06.led_switch = rs485.RX4_buf[5];      
+            slave_06.fan2_level = rs485.RX4_buf[5];      
 
-            led_ctrl(slave_06.led_switch);
+            fan2_ctrl(slave_06.fan2_level);
 
             break;
 
@@ -291,19 +291,19 @@ void Modbus_Fun16( void )
         modbus.byte_info_L = rs485.RX4_buf[modbus.rcv_value_addr + 1];
         switch (i)
         {
-            /*  40001  风速设置                 */
+            /*  40001  风速1设置                 */
             case 0x00:
-                slave_06.fan_level = modbus.byte_info_L;
+                slave_06.fan1_level = modbus.byte_info_L;
 
-                fan_ctrl(modbus.byte_info_L);
+                fan1_ctrl(modbus.byte_info_L);
 
                 break;
             
-            /*  40002  LED 开关状态设置                          */
+            /*  40002  风速2设置                          */
             case 0x01:
-                slave_06.led_switch = modbus.byte_info_L;
+                slave_06.fan2_level = modbus.byte_info_L;
 
-                led_ctrl(slave_06.led_switch);
+                fan2_ctrl(slave_06.fan2_level);
 
                 break;
 

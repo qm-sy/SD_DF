@@ -39,13 +39,3 @@ void power_crl(uint16_t power_num)
     
 }
 
-void led_crl( void )
-{
-    if(gui_info.led_switch == 0)
-    {
-        HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_RESET);
-    }else
-    {
-        HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_SET);
-    }
-}

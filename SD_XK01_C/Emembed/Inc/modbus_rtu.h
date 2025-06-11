@@ -25,8 +25,8 @@
 #define REG_NUM_H_04        0
 #define REG_NUM_L_04        4
 
-#define FAN_ADDR            0X00
-#define LED_ADDR            0X01
+#define FAN1_ADDR           0X00
+#define FAN2_ADDR           0X01
 #define POWER_CHANNEL_ADDR  0X02
 #define SYNC_ADDR           0X03
 #define MODE_ADDR           0X04

@@ -58,13 +58,13 @@ void Modbus_Fun3( void )
 
         /*      40001  风扇档位      */
         case 0:
-            gui_info.fan_level = rs485.rcvbuf[start_addr_03 + 1];   
+            gui_info.fan1_level = rs485.rcvbuf[start_addr_03 + 1];   
 
             break;
 
         /*      40002  LED开关状态      */
         case 1:
-            gui_info.led_switch = rs485.rcvbuf[start_addr_03 + 1];
+            gui_info.fan2_level = rs485.rcvbuf[start_addr_03 + 1];
 
             break;
 
@@ -284,10 +284,10 @@ void write_slave_16( void )
 
     /*   Valuex_H  && Valuex_L    */
     send_buf[7] = 0x00;
-    send_buf[8] = gui_info.fan_level;
+    send_buf[8] = gui_info.fan1_level;
 
     send_buf[9] = 0x00;
-    send_buf[10] = gui_info.led_switch;
+    send_buf[10] = gui_info.fan2_level;
 
     send_buf[11] = gui_info.power_level;
     send_buf[12] = gui_info.channel_num;

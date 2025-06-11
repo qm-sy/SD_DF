@@ -34,15 +34,15 @@
 #define UNCONNECT       0
 
 /*      需要跳动显示的内容   */
-#define FAN_ICON        1
-#define LED_ICON        2
+#define FAN1_ICON        1
+#define FAN2_ICON        2
 #define MODE_ICON       3
 #define TEMP_ALARM      4
 
 typedef struct  
 {       
-    uint8_t  fan_level;
-    uint8_t  led_switch;
+    uint8_t  fan1_level;
+    uint8_t  fan2_level;
     uint8_t  mode_num;
     uint8_t  mode_write_flag;
     uint8_t  power_level;       
@@ -86,8 +86,8 @@ void temp_dis( void );
 void temp_alarm_dis( void );
 void power_dis( void );
 void capacity_dis( void );
-void fan_dis( void );
-void led_dis( void );
+void fan1_dis( void );
+void fan2_dis( void );
 void mode_dis( void );
 
 void gui_info_update( void );

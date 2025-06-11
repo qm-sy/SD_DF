@@ -166,34 +166,29 @@ void AC_channel_ctrl( uint8_t channel_num )
         break;
     }
 }
-/**
- * @brief	24V LED开关控制函数
- *
- * @param   on_off：0：关闭 1：开启
- *
- * @return  void
-**/
-void led_ctrl( uint8_t on_off )
-{
-    if( on_off == FAN_ON )
-    {
-        LED = 0;
-    }else
-    {
-        LED = 1;
-    }
-}
 
 /**
- * @brief	24V PWM风扇档位控制函数
+ * @brief	24V PWM风扇1档位控制函数
  *
  * @param   level :风扇档位 0~6档
  *
  * @return  void
 **/
-void fan_ctrl( uint8_t level )
+void fan1_ctrl( uint8_t level )
 {
     PWMB_CCR7= level * 184;
+}
+
+/**
+ * @brief	24V PWM风扇2档位控制函数
+ *
+ * @param   level :风扇档位 0~6档
+ *
+ * @return  void
+**/
+void fan2_ctrl( uint8_t level )
+{
+    PWMB_CCR8= level * 184;
 }
 
 /**
@@ -287,30 +282,30 @@ void mode_ctrl( uint8_t mode_num )
     {
         case 1:         //节能模式
             AC_level_ctrl(30);
-            fan_ctrl(3);
+            fan1_ctrl(3);
 
             slave_06.power_level = 30;
-            slave_06.fan_level = 3;
+            slave_06.fan1_level = 3;
             eeprom_data_record();
 
             break;
 
         case 2:         //普通模式
             AC_level_ctrl(50);
-            fan_ctrl(4);
+            fan1_ctrl(4);
 
             slave_06.power_level = 50;
-            slave_06.fan_level = 4;
+            slave_06.fan1_level = 4;
             eeprom_data_record();
 
             break;
 
         case 3:         //强劲模式
             AC_level_ctrl(80);
-            fan_ctrl(6);
+            fan1_ctrl(6);
 
             slave_06.power_level = 80;
-            slave_06.fan_level = 6;
+            slave_06.fan1_level = 6;
             eeprom_data_record();
 
             break;
@@ -333,11 +328,9 @@ void power_switch_ctrl( uint8_t power_switch )
     {
         PWMB_BKR = 0x00; 
         EX0 = 0;
-        led_ctrl(0);
     }else
     {
         PWMB_BKR = 0x80;    //PWM控制
         EX0 = 1;            //外部中断控制
-        led_ctrl(slave_06.led_switch);
     }
 }

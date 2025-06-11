@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\Output\</OutputDirectory>
-          <OutputName>KP_SD_XK01C_HW1.20_SW001_20250514_Beta001</OutputName>
+          <OutputName>KP_SDDF_XK01C_HW1.20_SW001_20250514_Beta001</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>

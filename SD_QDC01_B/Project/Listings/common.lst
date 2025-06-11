@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   COMMON                                                            06/10/2025 17:12:09 PAGE 1   
+C51 COMPILER V9.60.7.0   COMMON                                                            06/11/2025 11:07:06 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE COMMON
@@ -62,7 +62,7 @@ line level    source
   51   2              if(( ac_ctrl.channel1_enable == 1 ) && (ac_ctrl.temp_alarm_flag == 0))
   52   2              {
   53   3                  channel1_cnt++;
-C51 COMPILER V9.60.7.0   COMMON                                                            06/10/2025 17:12:09 PAGE 2   
+C51 COMPILER V9.60.7.0   COMMON                                                            06/11/2025 11:07:06 PAGE 2   
 
   54   3              }
   55   2              if(( ac_ctrl.channel2_enable == 1 ) && (ac_ctrl.temp_alarm_flag == 0))

@@ -134,11 +134,11 @@ LINK MAP OF MODULE:  ..\Output\QDC01_B (DELAY)
             CODE    175EH     0013H     UNIT         ?PR?TIMER0_INIT?TIM
             CODE    1771H     0010H     UNIT         ?PR?TIMER3_INIT?TIM
             CODE    1781H     0010H     UNIT         ?PR?POWER_CONSUMPTION_INIT?POWER_CRL
-            CODE    1791H     0010H     UNIT         ?PR?_FAN_CTRL?POWER_CRL
+            CODE    1791H     0010H     UNIT         ?PR?_fan1_ctrl?POWER_CRL
             CODE    17A1H     0010H     UNIT         ?PR?POWER_CONSUMPTION_SCAN?POWER_CRL
             CODE    17B1H     000BH     UNIT         ?PR?_PUTCHAR?COMMUNICATION
             CODE    17BCH     000AH     UNIT         ?PR?TIMER1_INIT?TIM
-            CODE    17C6H     000AH     UNIT         ?PR?_LED_CTRL?POWER_CRL
+            CODE    17C6H     000AH     UNIT         ?PR?_fan2_ctrl?POWER_CRL
 
 
 
@@ -204,14 +204,14 @@ SEGMENT                                            BIT_GROUP          DATA_GROUP
 
 ?PR?EEPROM_DATA_INIT?EEPROM_CRL                 -----    -----      -----    -----      -----    -----
   +--> ?PR?_ISP_READ?EEPROM
-  +--> ?PR?_LED_CTRL?POWER_CRL
+  +--> ?PR?_fan2_ctrl?POWER_CRL
   +--> ?PR?_AC_220V_CRL?POWER_CRL
   +--> ?PR?SYNC_CTRL?POWER_CRL
   +--> ?PR?_MODE_CTRL?POWER_CRL
 
 ?PR?_MODE_CTRL?POWER_CRL                        -----    -----      -----    -----      -----    -----
   +--> ?PR?_AC_220V_CRL?POWER_CRL
-  +--> ?PR?_FAN_CTRL?POWER_CRL
+  +--> ?PR?_fan1_ctrl?POWER_CRL
   +--> ?PR?EEPROM_DATA_RECORD?EEPROM_CRL
 
 ?PR?PRINTF?PRINTF                               0020H.0  0001H.1    0008H    0005H      020BH    0028H
@@ -247,8 +247,8 @@ SEGMENT                                            BIT_GROUP          DATA_GROUP
 ?PR?_LOOKUPTABLE?NTC                            -----    -----      -----    -----      0211H    0009H
 
 ?PR?MODBUS_FUN6?MODBUS_RTU                      -----    -----      -----    -----      -----    -----
-  +--> ?PR?_FAN_CTRL?POWER_CRL
-  +--> ?PR?_LED_CTRL?POWER_CRL
+  +--> ?PR?_fan1_ctrl?POWER_CRL
+  +--> ?PR?_fan2_ctrl?POWER_CRL
   +--> ?PR?_AC_220V_CRL?POWER_CRL
   +--> ?PR?SYNC_CTRL?POWER_CRL
   +--> ?PR?_MODE_CTRL?POWER_CRL
@@ -256,8 +256,8 @@ SEGMENT                                            BIT_GROUP          DATA_GROUP
   +--> ?PR?EEPROM_DATA_RECORD?EEPROM_CRL
 
 ?PR?MODBUS_FUN16?MODBUS_RTU                     -----    -----      -----    -----      020BH    0002H
-  +--> ?PR?_FAN_CTRL?POWER_CRL
-  +--> ?PR?_LED_CTRL?POWER_CRL
+  +--> ?PR?_fan1_ctrl?POWER_CRL
+  +--> ?PR?_fan2_ctrl?POWER_CRL
   +--> ?PR?_AC_220V_CRL?POWER_CRL
   +--> ?PR?SYNC_CTRL?POWER_CRL
   +--> ?PR?_MODE_CTRL?POWER_CRL
@@ -1127,8 +1127,8 @@ SYMBOL TABLE OF MODULE:  ..\Output\QDC01_B (DELAY)
   B:00A8H.3       PUBLIC        ET1
   B:00A8H.0       PUBLIC        EX0
   D:008DH         PUBLIC        TH1
-  C:1791H         PUBLIC        _fan_ctrl
-  C:17C6H         PUBLIC        _led_ctrl
+  C:1791H         PUBLIC        _fan1_ctrl
+  C:17C6H         PUBLIC        _fan2_ctrl
   B:00C0H.1       PUBLIC        AC_Out1
   B:00C0H.2       PUBLIC        AC_Out2
   B:00C0H.3       PUBLIC        AC_Out3
@@ -1209,7 +1209,7 @@ SYMBOL TABLE OF MODULE:  ..\Output\QDC01_B (DELAY)
   C:174AH         LINE#         108
   C:175DH         LINE#         109
   -------         ENDPROC       _AC_220V_CRL
-  -------         PROC          _LED_CTRL
+  -------         PROC          _fan2_ctrl
   D:0007H         SYMBOL        on_off
   C:17C6H         LINE#         118
   C:17C6H         LINE#         119
@@ -1221,14 +1221,14 @@ SYMBOL TABLE OF MODULE:  ..\Output\QDC01_B (DELAY)
   C:17CDH         LINE#         125
   C:17CFH         LINE#         126
   C:17CFH         LINE#         127
-  -------         ENDPROC       _LED_CTRL
-  -------         PROC          _FAN_CTRL
+  -------         ENDPROC       _fan2_ctrl
+  -------         PROC          _fan1_ctrl
   D:0007H         SYMBOL        level
   C:1791H         LINE#         136
   C:1791H         LINE#         137
   C:1791H         LINE#         138
   C:17A0H         LINE#         139
-  -------         ENDPROC       _FAN_CTRL
+  -------         ENDPROC       _fan1_ctrl
   -------         PROC          SYNC_CTRL
   C:15EBH         LINE#         148
   C:15EBH         LINE#         149

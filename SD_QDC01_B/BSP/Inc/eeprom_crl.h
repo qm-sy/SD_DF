@@ -7,8 +7,8 @@
 #include "ntc.h"
 #include "stdio.h"
 
-#define FAN_ADDR            0x0000
-#define LED_ADDR            0x0001
+#define FAN1_ADDR           0x0000
+#define FAN2_ADDR           0x0001
 #define POWER_ADDR          0x0002
 #define CHANNEL_ADDR        0x0003
 #define SYNC_ADDR           0X0004 

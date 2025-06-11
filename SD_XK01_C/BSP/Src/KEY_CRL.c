@@ -122,19 +122,22 @@ void KEY2_press( void )
         {
             switch(gui_flicker.selection)
             {
-                case FAN_ICON:
-                    if( gui_info.fan_level > 0)
+                case FAN1_ICON:
+                    if( gui_info.fan1_level > 0 )
                     {
-                        gui_info.fan_level -= 1;
-                        write_slave_06(FAN_ADDR,0X00,gui_info.fan_level);
+                        gui_info.fan1_level -= 1;
+                        write_slave_06(FAN1_ADDR,0X00,gui_info.fan1_level);
                     }
-                    fan_dis();
+                    fan1_dis();
                     break;
 
-                case LED_ICON:
-                    gui_info.led_switch = LED_OFF;
-                    write_slave_06(LED_ADDR,0X00,gui_info.led_switch);
-                    led_dis();    
+                case FAN2_ICON:
+                    if( gui_info.fan2_level > 0 )
+                    {   
+                        gui_info.fan2_level -= 1;
+                        write_slave_06(FAN2_ADDR,0X00,gui_info.fan2_level);
+                    }
+                    fan2_dis();  
 
                     break;
 
@@ -202,14 +205,14 @@ void KEY3_press( void )
         {
             switch(gui_flicker.selection)
             {
-                case FAN_ICON:
-                    fan_dis();
-                    gui_flicker.selection = LED_ICON;
+                case FAN1_ICON:
+                    fan1_dis();
+                    gui_flicker.selection = FAN2_ICON;
 
                     break;
 
-                case LED_ICON:
-                    led_dis();
+                case FAN2_ICON:
+                    fan2_dis();
                     gui_flicker.selection = MODE_ICON;
 
                     break;
@@ -263,19 +266,22 @@ void KEY4_press( void )
         {
             switch(gui_flicker.selection)
             {
-                case FAN_ICON:
-                    if( gui_info.fan_level < 6 )
+                case FAN1_ICON:
+                    if( gui_info.fan1_level < 6 )
                     {
-                        gui_info.fan_level += 1;
-                        write_slave_06(FAN_ADDR,0X00,gui_info.fan_level);
+                        gui_info.fan1_level += 1;
+                        write_slave_06(FAN1_ADDR,0X00,gui_info.fan1_level);
                     }
-                    fan_dis();
+                    fan1_dis();
                     break;
 
-                case LED_ICON:
-                    gui_info.led_switch = LED_ON;
-                    write_slave_06(LED_ADDR,0X00,gui_info.led_switch);
-                    led_dis();    
+                case FAN2_ICON:
+                    if( gui_info.fan2_level < 6 )
+                    {
+                        gui_info.fan2_level += 1;
+                        write_slave_06(FAN2_ADDR,0X00,gui_info.fan2_level);
+                    }
+                    fan2_dis(); 
 
                     break;
 
@@ -391,19 +397,22 @@ void mode_select( void )
     {
         case 1:
             gui_info.power_level = 30;
-            gui_info.fan_level   = 3;
+            gui_info.fan1_level   = 3;
+            gui_info.fan2_level   = 3;
 
             break;
 
         case 2:
             gui_info.power_level = 50;
-            gui_info.fan_level   = 4;
+            gui_info.fan1_level   = 4;
+            gui_info.fan2_level   = 4;
 
             break;
 
         case 3:
             gui_info.power_level = 80;
-            gui_info.fan_level   = 6;
+            gui_info.fan1_level   = 6;
+            gui_info.fan2_level   = 6;
 
             break;
 

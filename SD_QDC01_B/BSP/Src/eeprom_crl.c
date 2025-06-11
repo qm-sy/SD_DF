@@ -15,8 +15,8 @@ void eeprom_statu_judge( void )
 
     if( eeprom_statu_flag != 0x58 )
     {
-        slave_06.fan_level         = 3;
-        slave_06.led_switch        = 1;
+        slave_06.fan1_level        = 3;
+        slave_06.fan2_level        = 3;
         slave_06.power_level       = 50;
         slave_06.channel_num       = 5;
         slave_06.sync_switch       = 0;
@@ -41,8 +41,8 @@ void eeprom_data_record( void )
 {
     ISP_Earse(0x0000);
 
-    ISP_Write(FAN_ADDR,slave_06.fan_level);
-    ISP_Write(LED_ADDR,slave_06.led_switch);
+    ISP_Write(FAN1_ADDR,slave_06.fan1_level);
+    ISP_Write(FAN2_ADDR,slave_06.fan2_level);
     ISP_Write(POWER_ADDR,slave_06.power_level);
     ISP_Write(CHANNEL_ADDR,slave_06.channel_num);
     ISP_Write(SYNC_ADDR,slave_06.sync_switch);
@@ -67,14 +67,14 @@ void eeprom_data_record( void )
 void eeprom_data_init( void )
 {
     /*    PWM风速初始化    */
-    slave_06.fan_level = ISP_Read(FAN_ADDR);
+    slave_06.fan1_level = ISP_Read(FAN1_ADDR);
 
-    fan_ctrl(slave_06.fan_level);
+    fan1_ctrl(slave_06.fan1_level);
 
     /*    LED开关状态初始化    */
-    slave_06.led_switch = ISP_Read(LED_ADDR);
+    slave_06.fan2_level = ISP_Read(FAN2_ADDR);
 
-    led_ctrl(slave_06.led_switch);
+    fan2_ctrl(slave_06.fan2_level);
 
     /*    三路220V输出使能及功率初始化    */
     slave_06.channel_num = ISP_Read(CHANNEL_ADDR);

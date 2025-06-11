@@ -18,8 +18,8 @@ void GUI_Info_Init( void )
     gui_info.sync_switch            = SYNC_OFF;
     gui_info.channel_num            = CHANNLE_123;
     gui_info.power_level            = 50;
-    gui_info.led_switch             = LED_ON; 
-    gui_info.fan_level              = LEVEL_3;
+    gui_info.fan1_level             = LEVEL_3; 
+    gui_info.fan2_level             = LEVEL_3;
     gui_info.mode_write_flag        = false;
     gui_info.mode_num               = MOED_1;
     gui_info.temp_value             = 25;
@@ -75,11 +75,13 @@ void GUI_Icon_Init( void )
     /*              Fan icon                */
     LCD_Show_Image_Internal_Flash(42,193,32,32,gImage_fan1,2048);
 
-    fan_dis();
-
+    fan1_dis();
+    LCD_ShowNum(72,215,1,1,12,BROWN,BACK_COLOR);
     /*              LED icon                */
-    led_dis();
+    LCD_Show_Image_Internal_Flash(137,193,32,32,gImage_fan1,2048);
 
+    fan2_dis();
+    LCD_ShowNum(168,215,2,1,12,BROWN,BACK_COLOR);
     /*              Mode icon                */
     LCD_Show_Image_Internal_Flash(230,193,42,31,gImage_mode,2604);
     mode_dis();
@@ -110,38 +112,38 @@ static void temp_alarm_flicker( void )
 }
 
 /**
- * @brief	界面信息-风扇档位 跳动
+ * @brief	界面信息-风扇1档位 跳动
  *
  * @param   void
  *
  * @return  void
  */
-static void fan_flicker( void )
+static void fan1_flicker( void )
 {   
     if( gui_flicker.clear_flag == true )
     {
         LCD_Fill(80,202,92,226,BACK_COLOR);
     }else
     {
-        fan_dis();
+        fan1_dis();
     }
 }
 
 /**
- * @brief	界面信息-LED开关状态 跳动
+ * @brief	界面信息-风扇2档位 跳动
  *
  * @param   void
  *
  * @return  void
  */
-static void led_flicker( void )
-{  
+static void fan2_flicker( void )
+{   
     if( gui_flicker.clear_flag == true )
     {
-        LCD_Fill(137,193,169,225,BACK_COLOR);
+        LCD_Fill(177,202,189,226,BACK_COLOR);
     }else
     {
-        led_dis();
+        fan2_dis();
     }
 }
 
@@ -337,33 +339,27 @@ void capacity_dis( void )
 }
 
 /**
- * @brief	界面信息-风扇档位 显示
+ * @brief	界面信息-风扇1档位 显示
  *
  * @param   void
  *
  * @return  void
  */
-void fan_dis( void )
+void fan1_dis( void )
 {
-    LCD_ShowNum(80,202,gui_info.fan_level,1,24,GREEN,BACK_COLOR);
+    LCD_ShowNum(80,202,gui_info.fan1_level,1,24,GREEN,BACK_COLOR);
 }
 
 /**
- * @brief	界面信息-LED开关状态 显示
+ * @brief	界面信息-风扇1档位 显示
  *
  * @param   void
  *
  * @return  void
  */
-void led_dis( void )
+void fan2_dis( void )
 {
-    if( gui_info.led_switch == LED_ON )
-    {
-        LCD_Show_Image_Internal_Flash(137,193,32,32,gImage_led_on,2048);
-    }else
-    {
-        LCD_Show_Image_Internal_Flash(137,193,32,32,gImage_led_off,2048);
-    }
+    LCD_ShowNum(177,202,gui_info.fan2_level,1,24,GREEN,BACK_COLOR);
 }
 
 /**
@@ -418,15 +414,15 @@ void Icon_Flicker( void )
 
         switch (gui_flicker.selection)
         {
-            case FAN_ICON:      fan_flicker();          break;
+            case FAN1_ICON:     fan1_flicker();          break;
 
-            case LED_ICON:      led_flicker();          break;
+            case FAN2_ICON:     fan2_flicker();          break;
 
-            case MODE_ICON:     mode_flicker();         break;
+            case MODE_ICON:     mode_flicker();          break;
 
-            case TEMP_ALARM:    temp_alarm_flicker();   break;
+            case TEMP_ALARM:    temp_alarm_flicker();    break;
 
-            default:                                    break;
+            default:                                     break;
         }
     }
 
